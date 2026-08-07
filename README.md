@@ -24,7 +24,7 @@ https://hiroshindo.github.io/clock-weather-widget/
 
 ## iPhone側の設定
 
-1. SafariでURLを開く
+1. **Safariで**URLを開く(Chromeで追加するとフルスクリーンにならないので注意。`apple-mobile-web-app-capable` はSafari専用の仕様で、Chrome経由のホーム画面追加ではURLバー付きのまま起動してしまう)
 2. 共有ボタン → 「ホーム画面に追加」
 3. 追加したアイコンから起動するとフルスクリーン表示
 
