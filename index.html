@@ -54,10 +54,9 @@
 
 <script>
   // ==== 設定エリア ====
-  // OpenWeatherMap (https://openweathermap.org/api) の無料APIキーをここに入れる
-  var API_KEY = "b763948f8c0b5f55cccaad41b6995c89";
-  var LAT = 34.7615;   // 吹田市付近
-  var LON = 135.5158;
+  // 気象庁アメダス観測点コード(吹田市に最も近いのは豊中)
+  // 観測点一覧: https://www.jma.go.jp/bosai/amedas/const/amedastable.json
+  var AMEDAS_STATION = "62051"; // 豊中
   var WEATHER_INTERVAL_MS = 10 * 60 * 1000; // 10分ごとに気温更新
   // ====================
 
@@ -75,17 +74,27 @@
       return;
     }
 
-    var url = "https://api.openweathermap.org/data/2.5/weather"
-      + "?lat=" + LAT + "&lon=" + LON
-      + "&appid=" + API_KEY + "&units=metric";
-
-    fetch(url)
+    fetch("https://www.jma.go.jp/bosai/amedas/data/latest_time.txt")
+      .then(function(res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      })
+      .then(function(latest) {
+        // "2026-08-07T22:50:00+09:00" のようなISO形式を
+        // マップJSONのファイル名形式 "20260807225000" に変換
+        var fileName = latest.trim().replace(/[-:T]/g, "").replace(/\+.*$/, "");
+        return fetch("https://www.jma.go.jp/bosai/amedas/data/map/" + fileName + ".json");
+      })
       .then(function(res) {
         if (!res.ok) throw new Error("HTTP " + res.status);
         return res.json();
       })
       .then(function(data) {
-        var t = data.main.temp;
+        var station = data[AMEDAS_STATION];
+        if (!station || !station.temp || station.temp[0] === null) {
+          throw new Error("観測値なし");
+        }
+        var t = station.temp[0];
         var sign = t < 0 ? "-" : "";
         var abs = Math.abs(t).toFixed(1);
         var parts = abs.split(".");

@@ -9,18 +9,18 @@ https://hiroshindo.github.io/clock-weather-widget/
 ## 機能
 
 - 時刻: `HH:mm` 形式、1秒ごとに更新
-- 気温: `nn.n℃` 形式(マイナスの時だけ `-` を付与)、OpenWeatherMapから取得、10分ごとに更新
-- 緯度経度は吹田市付近に固定(LAT=34.7615, LON=135.5158)
+- 気温: `nn.n℃` 形式(マイナスの時だけ `-` を付与)、気象庁アメダスから取得、10分ごとに更新
+- 観測点は吹田市に最も近いアメダス「豊中」(観測点コード62051)に固定
 - オフライン時(`navigator.onLine === false`)はfetchをスキップし「オフライン」表示
 - iOS 12 Safari互換(fetch, padStartのみ使用、ES5構文中心)
 - `apple-mobile-web-app-capable` 対応でホーム画面追加時にフルスクリーン起動
 
 ## セットアップ
 
-1. https://openweathermap.org/api でアカウント作成し、無料APIキーを取得
-   - 発行直後は有効化まで最大2時間ほどかかることがある(すぐ401が出ても待てば通る)
-2. `index.html` 内の `API_KEY` にキーを設定
-3. GitHubにpush → GitHub Pages (branch: main, path: /) で自動公開
+1. GitHubにpush → GitHub Pages (branch: main, path: /) で自動公開
+   - 気象庁アメダスAPIはキー不要・登録不要のため、他の準備は不要
+   - 観測点を変える場合は `index.html` 内の `AMEDAS_STATION` を
+     https://www.jma.go.jp/bosai/amedas/const/amedastable.json で調べたコードに変更
 
 ## iPhone側の設定
 
@@ -30,5 +30,5 @@ https://hiroshindo.github.io/clock-weather-widget/
 
 ## 注意点
 
-- リポジトリはpublicのため、`index.html` 内のAPIキーもソースとして公開される。OpenWeatherMap無料キーの実害は小さいが、他人に使われるとレート制限を消費する可能性がある
 - `file://` で直接開くとfetchがブロックされる可能性が高いため、GitHub Pages経由での利用が前提
+- アメダスは10分おきの定時観測のみで、観測点コードが存在しない・欠測の場合は「取得失敗」表示になる
