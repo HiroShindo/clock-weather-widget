@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>時計・気温</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+  }
+  #wrap {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: #eee;
+  }
+  #time {
+    font-size: 22vw;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+  #temp {
+    font-size: 12vw;
+    font-weight: 300;
+    margin-top: 4vh;
+    color: #9dd;
+  }
+  #status {
+    position: absolute;
+    bottom: 10px;
+    font-size: 10px;
+    color: #444;
+    font-family: monospace;
+  }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="time">--:--</div>
+  <div id="temp">--.-&nbsp;&#8451;</div>
+</div>
+<div id="status"></div>
+
+<script>
+  // ==== 設定エリア ====
+  // OpenWeatherMap (https://openweathermap.org/api) の無料APIキーをここに入れる
+  var API_KEY = "b763948f8c0b5f55cccaad41b6995c89";
+  var LAT = 34.7615;   // 吹田市付近
+  var LON = 135.5158;
+  var WEATHER_INTERVAL_MS = 10 * 60 * 1000; // 10分ごとに気温更新
+  // ====================
+
+  function updateClock() {
+    var now = new Date();
+    var hh = String(now.getHours()).padStart(2, "0");
+    var mm = String(now.getMinutes()).padStart(2, "0");
+    document.getElementById("time").textContent = hh + ":" + mm;
+  }
+
+  function updateWeather() {
+    // Wi-Fiのみ運用のため、ネットワーク未接続時は無駄なfetchを避ける
+    if (typeof navigator.onLine === "boolean" && !navigator.onLine) {
+      document.getElementById("status").textContent = "オフライン";
+      return;
+    }
+
+    var url = "https://api.openweathermap.org/data/2.5/weather"
+      + "?lat=" + LAT + "&lon=" + LON
+      + "&appid=" + API_KEY + "&units=metric";
+
+    fetch(url)
+      .then(function(res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(function(data) {
+        var t = data.main.temp;
+        var sign = t >= 0 ? "+" : "-";
+        var abs = Math.abs(t).toFixed(1);
+        var parts = abs.split(".");
+        var intPart = parts[0].padStart(2, "0");
+        var text = sign + intPart + "." + parts[1] + "&#8451;";
+        document.getElementById("temp").innerHTML = text;
+        document.getElementById("status").textContent =
+          "更新: " + new Date().toLocaleTimeString();
+      })
+      .catch(function(err) {
+        document.getElementById("status").textContent = "取得失敗: " + err.message;
+      });
+  }
+
+  updateClock();
+  updateWeather();
+  setInterval(updateClock, 1000);
+  setInterval(updateWeather, WEATHER_INTERVAL_MS);
+</script>
+</body>
+</html>
