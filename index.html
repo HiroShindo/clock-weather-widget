@@ -36,6 +36,9 @@
     margin-top: 4vh;
     color: #9dd;
   }
+  #temp .unit {
+    font-size: 70%;
+  }
   #status {
     position: absolute;
     bottom: 10px;
@@ -48,7 +51,7 @@
 <body>
 <div id="wrap">
   <div id="time">--:--</div>
-  <div id="temp">--.-&#8451; --% --.-m</div>
+  <div id="temp">--.-<span class="unit">&#8451;</span> --<span class="unit">%</span> --.-<span class="unit">m</span></div>
 </div>
 <div id="status"></div>
 
@@ -110,9 +113,9 @@
           return sign + String(Math.abs(v)).padStart(2, "0");
         }
 
-        var text = fmtDecimal(t, true) + "&#8451;";
-        if (h !== null) text += " " + fmtInt(h) + "%";
-        if (w !== null) text += " " + fmtDecimal(w, false) + "m";
+        var text = fmtDecimal(t, true) + '<span class="unit">&#8451;</span>';
+        if (h !== null) text += " " + fmtInt(h) + '<span class="unit">%</span>';
+        if (w !== null) text += " " + fmtDecimal(w, false) + '<span class="unit">m</span>';
         document.getElementById("temp").innerHTML = text;
         document.getElementById("status").textContent =
           "更新: " + new Date().toLocaleTimeString();
