@@ -10,7 +10,7 @@ https://hiroshindo.github.io/clock-weather-widget/
 
 - 時刻: `HH:mm` 形式、1秒ごとに更新
 - 気温・湿度・風速: `nn.n℃ nn% n.nm` 形式(気温はマイナスの時だけ `-` を付与、風速はゼロパディングなし)、気象庁アメダスから取得、10分ごとに更新
-- 観測点は吹田市に最も近いアメダス「豊中」(観測点コード62051)に固定
+- 観測点は「大阪」(観測点コード62078)に固定(吹田市に最も近い「豊中」は湿度非観測のため使用不可)
 - オフライン時(`navigator.onLine === false`)はfetchをスキップし「オフライン」表示
 - iOS 12 Safari互換(fetch, padStartのみ使用、ES5構文中心)
 - `apple-mobile-web-app-capable` 対応でホーム画面追加時にフルスクリーン起動
