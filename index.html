@@ -48,7 +48,7 @@
 <body>
 <div id="wrap">
   <div id="time">--:--</div>
-  <div id="temp">--.-&nbsp;&#8451;</div>
+  <div id="temp">--.-&#8451; --% --.-m</div>
 </div>
 <div id="status"></div>
 
@@ -95,11 +95,24 @@
           throw new Error("観測値なし");
         }
         var t = station.temp[0];
-        var sign = t < 0 ? "-" : "";
-        var abs = Math.abs(t).toFixed(1);
-        var parts = abs.split(".");
-        var intPart = parts[0].padStart(2, "0");
-        var text = sign + intPart + "." + parts[1] + "&#8451;";
+        var h = station.humidity ? station.humidity[0] : null;
+        var w = station.wind ? station.wind[0] : null;
+
+        function fmtDecimal(v, pad) {
+          var sign = v < 0 ? "-" : "";
+          var abs = Math.abs(v).toFixed(1);
+          var parts = abs.split(".");
+          var intPart = pad ? parts[0].padStart(2, "0") : parts[0];
+          return sign + intPart + "." + parts[1];
+        }
+        function fmtInt(v) {
+          var sign = v < 0 ? "-" : "";
+          return sign + String(Math.abs(v)).padStart(2, "0");
+        }
+
+        var text = fmtDecimal(t, true) + "&#8451;";
+        if (h !== null) text += " " + fmtInt(h) + "%";
+        if (w !== null) text += " " + fmtDecimal(w, false) + "m";
         document.getElementById("temp").innerHTML = text;
         document.getElementById("status").textContent =
           "更新: " + new Date().toLocaleTimeString();
