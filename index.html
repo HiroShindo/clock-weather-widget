@@ -39,6 +39,15 @@
   #temp .unit {
     font-size: 50%;
   }
+  #date {
+    position: absolute;
+    top: 2vw;
+    right: 3vw;
+    font-size: 6vw; /* 気温行の単位(℃)と同サイズ: 12vw × 50% */
+    font-weight: 300;
+    color: #9dd;
+    white-space: nowrap;
+  }
   #status {
     position: absolute;
     bottom: 10px;
@@ -53,6 +62,7 @@
   <div id="time">--:--</div>
   <div id="temp">--.-<span class="unit">&#8451;</span> --<span class="unit">%</span> --.-<span class="unit">m</span></div>
 </div>
+<div id="date">----/--/--(-)</div>
 <div id="status"></div>
 
 <script>
@@ -68,6 +78,12 @@
     var hh = String(now.getHours()).padStart(2, "0");
     var mm = String(now.getMinutes()).padStart(2, "0");
     document.getElementById("time").textContent = hh + ":" + mm;
+
+    var days = ["日", "月", "火", "水", "木", "金", "土"];
+    var mo = String(now.getMonth() + 1).padStart(2, "0");
+    var dd = String(now.getDate()).padStart(2, "0");
+    document.getElementById("date").textContent =
+      now.getFullYear() + "/" + mo + "/" + dd + "(" + days[now.getDay()] + ")";
   }
 
   function updateWeather() {
