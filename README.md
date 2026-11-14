@@ -11,6 +11,8 @@ https://hiroshindo.github.io/clock-weather-widget/
 - 時刻: `HH:mm` 形式、1秒ごとに更新
 - 気温・湿度・風速: `nn.n℃ nn% n.nm` 形式(気温はマイナスの時だけ `-` を付与、風速はゼロパディングなし)、気象庁アメダスから取得、10分ごとに更新
 - 観測点は「大阪」(観測点コード62078)に固定(吹田市に最も近い「豊中」は湿度非観測のため使用不可)
+- 日付: 時刻の上に右寄せで `MM/dd(曜)` 形式(曜日は日〜土の1文字)
+- 自動更新: 5分ごとに公開中の `index.html` の `APP_VERSION` を確認し、違えば読み込み直す。**`index.html` を変更してpushするときは `APP_VERSION` の値も必ず変えること**
 - オフライン時(`navigator.onLine === false`)はfetchをスキップし「オフライン」表示
 - iOS 12 Safari互換(fetch, padStartのみ使用、ES5構文中心)
 - `apple-mobile-web-app-capable` 対応でホーム画面追加時にフルスクリーン起動
