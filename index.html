@@ -40,9 +40,10 @@
     font-size: 50%;
   }
   #date {
-    position: absolute;
-    top: 2vw;
-    right: 3vw;
+    align-self: flex-end;
+    margin-right: 3vw;
+    margin-bottom: 6vw; /* 日付1行分(行の高さ=font-size=6vw)の空き */
+    line-height: 1;
     font-size: 6vw; /* 気温行の単位(℃)と同サイズ: 12vw × 50% */
     font-weight: 300;
     color: #9dd;
@@ -59,10 +60,10 @@
 </head>
 <body>
 <div id="wrap">
+  <div id="date">--/--(-)</div>
   <div id="time">--:--</div>
   <div id="temp">--.-<span class="unit">&#8451;</span> --<span class="unit">%</span> --.-<span class="unit">m</span></div>
 </div>
-<div id="date">----/--/--(-)</div>
 <div id="status"></div>
 
 <script>
@@ -83,7 +84,7 @@
     var mo = String(now.getMonth() + 1).padStart(2, "0");
     var dd = String(now.getDate()).padStart(2, "0");
     document.getElementById("date").textContent =
-      now.getFullYear() + "/" + mo + "/" + dd + "(" + days[now.getDay()] + ")";
+      mo + "/" + dd + "(" + days[now.getDay()] + ")";
   }
 
   function updateWeather() {
