@@ -45,7 +45,7 @@
   #date {
     align-self: flex-end;
     margin-right: 3vw;
-    margin-bottom: 9vw; /* 日付1行分(行の高さ=font-size=9vw)の空き */
+    margin-bottom: 3vw; /* 日付と時刻の間隔 */
     line-height: 1;
     font-size: 9vw;
     font-weight: 300;
@@ -79,7 +79,7 @@
 
   // ページ自動更新用バージョン。index.htmlを変更してpushするたびに値を変えること。
   // 端末が古いページを表示していても、新しい版が公開されていれば自動で読み込み直す。
-  var APP_VERSION = "2026-11-14-1";
+  var APP_VERSION = "2026-11-14-2";
   var VERSION_CHECK_MS = 5 * 60 * 1000; // 5分ごとに確認
 
   function checkVersion() {
