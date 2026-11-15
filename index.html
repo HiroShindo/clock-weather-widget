@@ -44,7 +44,7 @@
   }
   #date .day {
     font-size: 70%;
-    vertical-align: 0.12em; /* 小さくした曜日を数字の上下中央に合わせて少し持ち上げる */
+    vertical-align: 0.18em; /* 小さくした曜日を数字の上下中央に合わせて少し持ち上げる */
   }
   #date {
     align-self: flex-end;
@@ -83,7 +83,7 @@
 
   // ページ自動更新用バージョン。index.htmlを変更してpushするたびに値を変えること。
   // 端末が古いページを表示していても、新しい版が公開されていれば自動で読み込み直す。
-  var APP_VERSION = "2026-11-14-4";
+  var APP_VERSION = "2026-11-14-5";
   var VERSION_CHECK_MS = 5 * 60 * 1000; // 5分ごとに確認
 
   function checkVersion() {
