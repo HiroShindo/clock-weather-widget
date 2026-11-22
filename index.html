@@ -157,10 +157,10 @@
         }
         function fmtInt(v) {
           var sign = v < 0 ? "-" : "";
-          return sign + String(Math.abs(v)).padStart(2, "0");
+          return sign + String(Math.abs(v));
         }
 
-        var text = fmtDecimal(t, true) + '<span class="unit">&#8451;</span>';
+        var text = fmtDecimal(t, false) + '<span class="unit">&#8451;</span>';
         if (h !== null) text += " " + fmtInt(h) + '<span class="unit">%</span>';
         if (w !== null) text += " " + fmtDecimal(w, false) + '<span class="unit">m</span>';
         document.getElementById("temp").innerHTML = text;
